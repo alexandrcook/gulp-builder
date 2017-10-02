@@ -6,6 +6,10 @@ To copy builder write in console:
 
 3) git pull origin master
 
+4) git remote rm origin
+
+OR just Download .zip and unpack to you project folder
+
 
 To start developing write in console:
 
