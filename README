@@ -1,0 +1,9 @@
+To copy builder write in console:
+
+1) git init
+
+2) git remote add origin https://github.com/alexandrcook/gulp-builder.git
+
+3) git pull origin master
+
+Enjoy!!!
