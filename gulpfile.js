@@ -89,9 +89,8 @@ gulp.task('scripts', function () {
         .pipe(concat('main.js'))
         .pipe(include({
             includePaths: [
-                appRoot + "/node_modules",
-                appRoot + "/bower_components",
-                appRoot + "/app/scripts"
+                appRoot,
+                appRoot + "/app/scripts/"
             ]
         }))
         .on('error', console.log)
