@@ -1,5 +1,5 @@
 {
-  "name": "gulp-test2",
+  "name": "gulp-builder by AlexandrCook",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
@@ -27,6 +27,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "AlexandrCook",
   "license": "ISC"
 }
