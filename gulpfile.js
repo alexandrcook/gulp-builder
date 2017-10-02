@@ -21,6 +21,8 @@ var stylish = require('jshint-stylish'); // More stylish debugging
 //Custom
 var include = require('gulp-include'); //JS include
 var appRoot = require('app-root-path'); //Get root-path
+var chokidar = require('chokidar'); //custom watcher
+var clean = require('gulp-clean');
 
 //My PATH
 var path = {
@@ -39,13 +41,14 @@ var path = {
         fonts: 'app/fonts/**/*.*' //All fonts
     },
     watch: { //Where watch changes
-        html: 'app/**/*.*',
+        html: 'app/*.*',
         js: 'app/scripts/**/*.*',
         style: 'app/sass/**/*.*',
-        img: 'app/images/**/*.*',
+        img: 'app/images/**/*',
         fonts: 'app/fonts/**/*.*'
     },
-    approot: './build'
+    approot: './app',
+    buildroot: './build'
 };
 
 // Tasks -------------------------------------------------------------------- >
@@ -109,9 +112,11 @@ gulp.task('images', function () {
             optimizationLevel: 5,
             svgoPlugins: [{removeViewBox: true}]
         }))
-        .pipe(gulp.dest(path.build.img));
+        .pipe(gulp.dest(path.build.img))
+        .pipe(browserSync.reload({
+            stream: true,
+        }));
 });
-
 
 //Fonts build
 gulp.task('fonts', function () {
@@ -123,9 +128,9 @@ gulp.task('fonts', function () {
 });
 
 
-// Task to get the size of the app project
+// Task to get the size of the source
 gulp.task('size', function () {
-    gulp.src('./app/**')
+    gulp.src(path.approot)
         .pipe(size({
             showFiles: true,
         }));
@@ -133,26 +138,47 @@ gulp.task('size', function () {
 
 // Task to get the size of the build project
 gulp.task('build-size', function () {
-    gulp.src('./build/**')
+    gulp.src(path.buildroot)
         .pipe(size({
             showFiles: true,
         }));
+});
+
+//Clean build path
+gulp.task('clean', function () {
+    return gulp.src(path.buildroot, {read: false})
+        .pipe(clean());
 });
 
 // Serve application
 gulp.task('serve', ['styles', 'html', 'scripts', 'images', 'jshint', 'size', 'fonts'], function () {
     browserSync.init({
         server: {
-            baseDir: 'build',
+            baseDir: path.buildroot,
         },
     });
 });
 
 // Run all Gulp tasks and serve application
 gulp.task('default', ['serve', 'styles'], function () {
-    gulp.watch(path.watch.style, ['styles']);
-    gulp.watch(path.watch.html, ['html']);
-    gulp.watch(path.watch.js, ['scripts']);
-    gulp.watch(path.watch.img, ['images']);
-    gulp.watch(path.watch.fonts, ['fonts']);
+    chokidar.watch(path.watch.style, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+        console.log(event,path);
+        gulp.start('styles')
+    });
+    chokidar.watch(path.watch.html, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+        console.log(event,path);
+        gulp.start('html')
+    });
+    chokidar.watch(path.watch.js, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+        console.log(event,path);
+        gulp.start('scripts')
+    });
+    chokidar.watch(path.watch.img, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+        console.log(event,path);
+        gulp.start('images')
+    });
+    chokidar.watch(path.watch.fonts, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+        console.log(event,path);
+        gulp.start('fonts')
+    });
 });

@@ -1,5 +1,5 @@
 {
-  "name": "gulp-builde_by_AlexandrCook",
+  "name": "gulp-builder_by_AlexandrCook",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
@@ -10,7 +10,9 @@
   "devDependencies": {
     "app-root-path": "^2.0.1",
     "browser-sync": "^2.18.13",
+    "chokidar": "^1.7.0",
     "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^3.3.0",
     "gulp-include": "^2.3.1",
@@ -21,6 +23,7 @@
     "gulp-size": "^2.1.0",
     "gulp-strip-debug": "^1.1.0",
     "gulp-uglify": "^3.0.0",
+    "gulp-watch": "^4.3.11",
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1"
   },
